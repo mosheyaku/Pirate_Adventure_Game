@@ -3,38 +3,61 @@ package main;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
+    private float xDelta = 100, yDelta = 100;
+    private BufferedImage img, subImg;
 
-    private int xDelta=100, yDelta=100;
-    public GamePanel(){
-        mouseInputs= new MouseInputs(this);
+
+    public GamePanel() {
+        mouseInputs = new MouseInputs(this);
+        importImg();
+        setPanelSize();
         addKeyListener(new KeyboardInputs(this));
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
     }
-    public void changeXDelta(int value){
-        this.xDelta+=value;
-        repaint();
+
+    private void importImg() {
+        InputStream is = getClass().getResourceAsStream("/images/pirate_positions.png");
+        try {
+            img = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void changeYDelta(int value){
-        this.yDelta+=value;
-        repaint();
+    private void setPanelSize() {
+        Dimension size= new Dimension(1280, 800);
+        setMinimumSize(size);
+        setPreferredSize(size);
+        setMaximumSize(size);
     }
 
-    public void setRectPosition(int x, int y){
-        this.xDelta=x;
-        this.yDelta=y;
-        repaint();
+    public void changeXDelta(int value) {
+        this.xDelta += value;
     }
-    public void paintComponent(Graphics graphics){
+
+    public void changeYDelta(int value) {
+        this.yDelta += value;
+    }
+
+    public void setRectPosition(int x, int y) {
+        this.xDelta = x;
+        this.yDelta = y;
+    }
+
+    public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        graphics.fillRect(xDelta,yDelta,200,50);
+        subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
+        graphics.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
+
     }
 }
