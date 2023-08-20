@@ -13,16 +13,27 @@ import java.io.InputStream;
 public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
     private float xDelta = 100, yDelta = 100;
-    private BufferedImage img, subImg;
+    private BufferedImage img;
+    private BufferedImage[] pirateAnimation;
+    private int animationMovement, animationIndex, animationSpeed= 15;
 
 
     public GamePanel() {
         mouseInputs = new MouseInputs(this);
         importImg();
+        loadAnimations();
         setPanelSize();
         addKeyListener(new KeyboardInputs(this));
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
+    }
+
+    private void loadAnimations() {
+        pirateAnimation= new BufferedImage[5];
+        for (int i = 0; i < pirateAnimation.length; i++) {
+            pirateAnimation[i]= img.getSubimage(i*64, 0, 64, 40);
+        }
+
     }
 
     private void importImg() {
@@ -31,11 +42,17 @@ public class GamePanel extends JPanel {
             img = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void setPanelSize() {
-        Dimension size= new Dimension(1280, 800);
+        Dimension size = new Dimension(1280, 800);
         setMinimumSize(size);
         setPreferredSize(size);
         setMaximumSize(size);
@@ -56,8 +73,18 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        subImg = img.getSubimage(1 * 64, 8 * 40, 64, 40);
-        graphics.drawImage(subImg, (int) xDelta, (int) yDelta, 128, 80, null);
+        updateAnimationMovement();
+        graphics.drawImage(pirateAnimation[animationIndex], (int) xDelta, (int) yDelta, 128, 80, null);
 
+    }
+
+    private void updateAnimationMovement() {
+        animationMovement++;
+        if(animationMovement>=animationSpeed){
+            animationMovement=0;
+            animationIndex++;
+            animationIndex %= pirateAnimation.length;
+
+        }
     }
 }
