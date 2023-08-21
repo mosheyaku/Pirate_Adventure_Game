@@ -83,9 +83,6 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        updateAnimationMovement();
-        setAnimation();
-        updatePosition();
         graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) xDelta, (int) yDelta, 128, 80, null);
 
     }
@@ -123,5 +120,11 @@ public class GamePanel extends JPanel {
             animationIndex++;
             animationIndex %= getSpriteAmount(playerAction);
         }
+    }
+
+    public void updateGame(){
+        updateAnimationMovement();
+        setAnimation();
+        updatePosition();
     }
 }
