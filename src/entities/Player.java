@@ -6,32 +6,67 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static utils.Constants.Directions.*;
-import static utils.Constants.Directions.DOWN;
 import static utils.Constants.PlayerConstants.*;
 
-public class Player extends Entity{
+public class Player extends Entity {
 
     private BufferedImage[][] pirateAnimation;
 
     private int animationMovement, animationIndex, animationSpeed = 15;
     private int playerAction = STAYING;
-    private int playerDirection = -1;
     private boolean moving = false;
+
+    private float playerSpeed = 2.0f;
+
+    private boolean left, right, up, down;
+
     public Player(float x, float y) {
         super(x, y);
         loadAnimations();
     }
 
-    public void update(){
-        updateAnimationMovement();
-        setAnimation();
-        updatePosition();
+    public boolean isLeft() {
+        return left;
     }
 
-    public void render(Graphics graphics){
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
+    }
+
+    public void update() {
+        updatePosition();
+        updateAnimationMovement();
+        setAnimation();
+    }
+
+    public void render(Graphics graphics) {
         graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) x, (int) y, 128, 80, null);
     }
+
     private void loadAnimations() {
         InputStream is = getClass().getResourceAsStream("/images/pirate_positions.png");
         try {
@@ -54,40 +89,30 @@ public class Player extends Entity{
         }
     }
 
-
-    public void setDirection(int direction) {
-        this.playerDirection = direction;
-        moving= true;
-    }
-
-    public void setMoving(boolean moving){
-        this.moving=moving;
-    }
-
     private void updatePosition() {
-        if(moving){
-            switch (playerDirection){
-                case LEFT:
-                    x-=2;
-                    break;
-                case UP:
-                    y-=2;
-                    break;
-                case RIGHT:
-                    x+=2;
-                    break;
-                case DOWN:
-                    y+=2;
-                    break;
-            }
+        moving = false;
+        if (left && !right) {
+            x -= playerSpeed;
+            moving = true;
+        } else if (right && !left) {
+            x += playerSpeed;
+            moving = true;
+        }
+
+        if (up && !down) {
+            y -= playerSpeed;
+            moving = true;
+        } else if (down && !up) {
+            y += playerSpeed;
+            moving = true;
         }
     }
 
     private void setAnimation() {
-        if(moving)
-            playerAction=RUNNING;
+        if (moving)
+            playerAction = RUNNING;
         else
-            playerAction=STAYING;
+            playerAction = STAYING;
     }
 
     private void updateAnimationMovement() {

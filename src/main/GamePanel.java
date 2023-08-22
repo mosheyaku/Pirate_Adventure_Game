@@ -3,15 +3,8 @@ package main;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-
-import static utils.Constants.PlayerConstants.*;
-import static utils.Constants.Directions.*;
 
 public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
@@ -20,14 +13,14 @@ public class GamePanel extends JPanel {
 
     public GamePanel(Game game) {
         mouseInputs = new MouseInputs(this);
-        this.game=game;
+        this.game = game;
         setPanelSize();
         addKeyListener(new KeyboardInputs(this));
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
     }
 
-    public Game getGame(){
+    public Game getGame() {
         return game;
     }
 
@@ -37,15 +30,6 @@ public class GamePanel extends JPanel {
         setPreferredSize(size);
         setMaximumSize(size);
     }
-
-//    public void changeXDelta(int value) {
-//        this.xDelta += value;
-//    }
-//
-//    public void changeYDelta(int value) {
-//        this.yDelta += value;
-//    }
-
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

@@ -1,7 +1,6 @@
 package main;
 
 import entities.Player;
-import utils.Constants;
 
 import java.awt.*;
 
@@ -34,7 +33,7 @@ public class Game implements Runnable {
         player.update();
     }
 
-    public void render(Graphics graphics){
+    public void render(Graphics graphics) {
         player.render(graphics);
     }
 
@@ -79,7 +78,7 @@ public class Game implements Runnable {
         }
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return player;
     }
 }
