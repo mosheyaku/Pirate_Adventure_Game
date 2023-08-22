@@ -14,7 +14,7 @@ public class Player extends Entity {
 
     private int animationMovement, animationIndex, animationSpeed = 15;
     private int playerAction = STAYING;
-    private boolean moving = false;
+    private boolean moving = false, attacking = false;
 
     private float playerSpeed = 2.0f;
 
@@ -39,6 +39,10 @@ public class Player extends Entity {
 
     public void setRight(boolean right) {
         this.right = right;
+    }
+
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
     }
 
     public boolean isUp() {
@@ -116,10 +120,20 @@ public class Player extends Entity {
     }
 
     private void setAnimation() {
+        int startAnimation = playerAction;
         if (moving)
             playerAction = RUNNING;
         else
             playerAction = STAYING;
+        if (attacking)
+            playerAction = ATTACK_1;
+        if (startAnimation != playerAction)
+            resetAnimationMovement();
+    }
+
+    private void resetAnimationMovement() {
+        animationMovement = 0;
+        animationIndex = 0;
     }
 
     private void updateAnimationMovement() {
@@ -127,7 +141,10 @@ public class Player extends Entity {
         if (animationMovement >= animationSpeed) {
             animationMovement = 0;
             animationIndex++;
-            animationIndex %= getSpriteAmount(playerAction);
+            if (animationIndex >= getSpriteAmount(playerAction)) {
+                animationIndex = 0;
+                attacking = false;
+            }
         }
     }
 }
