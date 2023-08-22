@@ -57,6 +57,13 @@ public class Player extends Entity {
         this.down = down;
     }
 
+    public void resetDirectionBoolean() {
+        left = false;
+        right = false;
+        up = false;
+        down = false;
+    }
+
     public void update() {
         updatePosition();
         updateAnimationMovement();
