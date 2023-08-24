@@ -1,5 +1,7 @@
 package entities;
 
+import utils.LoadSave;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -79,25 +81,13 @@ public class Player extends Entity {
     }
 
     private void loadAnimations() {
-        InputStream is = getClass().getResourceAsStream("/images/pirate_positions.png");
-        try {
-            BufferedImage img = ImageIO.read(is);
+        BufferedImage img = LoadSave.getPositionsAtlas(LoadSave.PLAYER_ATLAS);
 
-            pirateAnimation = new BufferedImage[9][6];
-            for (int i = 0; i < pirateAnimation.length; i++)
-                for (int j = 0; j < pirateAnimation[i].length; j++) {
-                    pirateAnimation[i][j] = img.getSubimage(j * 64, i * 40, 64, 40);
-                }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        pirateAnimation = new BufferedImage[9][6];
+        for (int i = 0; i < pirateAnimation.length; i++)
+            for (int j = 0; j < pirateAnimation[i].length; j++) {
+                pirateAnimation[i][j] = img.getSubimage(j * 64, i * 40, 64, 40);
             }
-        }
     }
 
     private void updatePosition() {
