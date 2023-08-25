@@ -2,11 +2,8 @@ package entities;
 
 import utils.LoadSave;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 import static utils.Constants.PlayerConstants.*;
 
@@ -14,7 +11,7 @@ public class Player extends Entity {
 
     private BufferedImage[][] pirateAnimation;
 
-    private int animationMovement, animationIndex, animationSpeed = 15;
+    private int animationMovement, animationIndex, animationSpeed = 25;
     private int playerAction = STAYING;
     private boolean moving = false, attacking = false;
 
@@ -22,8 +19,8 @@ public class Player extends Entity {
 
     private boolean left, right, up, down;
 
-    public Player(float x, float y) {
-        super(x, y);
+    public Player(float x, float y, int width, int height) {
+        super(x, y, width, height);
         loadAnimations();
     }
 
@@ -77,7 +74,7 @@ public class Player extends Entity {
     }
 
     public void render(Graphics graphics) {
-        graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) x, (int) y, 128, 80, null);
+        graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) x, (int) y, width, height, null);
     }
 
     private void loadAnimations() {

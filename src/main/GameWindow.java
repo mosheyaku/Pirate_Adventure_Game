@@ -3,18 +3,19 @@ package main;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.time.Clock;
 
-public class GameWindow{
+public class GameWindow {
     private JFrame jFrame;
-    public GameWindow(GamePanel gamePanel){
+
+    public GameWindow(GamePanel gamePanel) {
 
         jFrame = new JFrame();
-
         jFrame.setSize(850, 490);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.add(gamePanel);
         jFrame.setLocationRelativeTo(null);
+        jFrame.setResizable(false);
+        jFrame.pack();
         jFrame.setVisible(true);
         jFrame.addWindowFocusListener(new WindowFocusListener() {
             @Override
@@ -27,13 +28,5 @@ public class GameWindow{
 
             }
         });
-
-//        jFrame= new JFrame();
-//        jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE );
-//        jFrame.add(gamePanel);
-//        jFrame.setLocationRelativeTo(null);
-//        jFrame.setResizable(false);
-//        jFrame.pack();
-//        jFrame.setVisible(true);
     }
 }
