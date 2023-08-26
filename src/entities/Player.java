@@ -69,12 +69,14 @@ public class Player extends Entity {
 
     public void update() {
         updatePosition();
+        updateHitbox();
         updateAnimationMovement();
         setAnimation();
     }
 
     public void render(Graphics graphics) {
         graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) x, (int) y, width, height, null);
+        drawHitbox(graphics);
     }
 
     private void loadAnimations() {
