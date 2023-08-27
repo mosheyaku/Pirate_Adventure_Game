@@ -1,5 +1,6 @@
 package entities;
 
+import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -21,10 +22,13 @@ public class Player extends Entity {
     private float playerSpeed = 2.0f;
 
     private boolean left, right, up, down;
+    private float xDrawOffset = 21 * Game.SCALE;
+    private float yDrawOffset = 4 * Game.SCALE;
 
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
+        initHitbox(x, y, 20 * Game.SCALE, 28 * Game.SCALE);
     }
 
     public boolean isLeft() {
@@ -72,13 +76,12 @@ public class Player extends Entity {
 
     public void update() {
         updatePosition();
-        updateHitbox();
         updateAnimationMovement();
         setAnimation();
     }
 
     public void render(Graphics graphics) {
-        graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) x, (int) y, width, height, null);
+        graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) (hitbox.x- xDrawOffset), (int) (hitbox.y- yDrawOffset), width, height, null);
         drawHitbox(graphics);
     }
 
@@ -114,9 +117,9 @@ public class Player extends Entity {
         else if (down && !up)
             ySpeed = playerSpeed;
 
-        if (canMoveHere(x + xSpeed, y + ySpeed, width, height, levelData)) {
-            this.x += xSpeed;
-            this.y += ySpeed;
+        if (canMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, levelData)) {
+            hitbox.x += xSpeed;
+            hitbox.y += ySpeed;
             moving = true;
         }
 
