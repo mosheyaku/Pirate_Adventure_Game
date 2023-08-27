@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.*;
 
+import static utils.HelpMethods.canMoveHere;
+
 public class Player extends Entity {
 
     private BufferedImage[][] pirateAnimation;
@@ -14,6 +16,7 @@ public class Player extends Entity {
     private int animationMovement, animationIndex, animationSpeed = 25;
     private int playerAction = STAYING;
     private boolean moving = false, attacking = false;
+    private int[][] levelData;
 
     private float playerSpeed = 2.0f;
 
@@ -89,23 +92,34 @@ public class Player extends Entity {
             }
     }
 
+    public void loadLevelData(int[][] levelData) {
+        this.levelData = levelData;
+    }
+
     private void updatePosition() {
         moving = false;
-        if (left && !right) {
-            x -= playerSpeed;
-            moving = true;
-        } else if (right && !left) {
-            x += playerSpeed;
+        if (!left && !right && !up && !down)
+            return;
+
+        float xSpeed = 0, ySpeed = 0;
+
+        if (left && !right)
+            xSpeed = -playerSpeed;
+        else if (right && !left)
+            xSpeed = playerSpeed;
+
+
+        if (up && !down)
+            ySpeed = -playerSpeed;
+        else if (down && !up)
+            ySpeed = playerSpeed;
+
+        if (canMoveHere(x + xSpeed, y + ySpeed, width, height, levelData)) {
+            this.x += xSpeed;
+            this.y += ySpeed;
             moving = true;
         }
 
-        if (up && !down) {
-            y -= playerSpeed;
-            moving = true;
-        } else if (down && !up) {
-            y += playerSpeed;
-            moving = true;
-        }
     }
 
     private void setAnimation() {
