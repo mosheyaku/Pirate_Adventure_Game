@@ -4,6 +4,7 @@ import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;
+import java.awt.font.GlyphMetrics;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.*;
@@ -18,12 +19,15 @@ public class Player extends Entity {
     private int playerAction = STAYING;
     private boolean moving = false, attacking = false;
     private int[][] levelData;
-
     private float playerSpeed = 2.0f;
-
-    private boolean left, right, up, down;
+    private boolean left, right, up, down, jump;
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 4 * Game.SCALE;
+    private float airSpeed = 0f;
+    private float gravity = 0.04f * Game.SCALE;
+    private float jumpSpeed = -2.25f * Game.SCALE;
+    private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
+    private boolean inAir = false;
 
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
@@ -81,7 +85,7 @@ public class Player extends Entity {
     }
 
     public void render(Graphics graphics) {
-        graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) (hitbox.x- xDrawOffset), (int) (hitbox.y- yDrawOffset), width, height, null);
+        graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
         drawHitbox(graphics);
     }
 
