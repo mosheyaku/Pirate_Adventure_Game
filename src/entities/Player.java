@@ -4,12 +4,12 @@ import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;
-import java.awt.font.GlyphMetrics;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.*;
 
-import static utils.HelpMethods.canMoveHere;
+import static utils.HelpMethods.*;
+import static utils.HelpMethods.getEntityXPosNextToWall;
 
 public class Player extends Entity {
 
@@ -71,6 +71,10 @@ public class Player extends Entity {
         this.down = down;
     }
 
+    public void setJump(boolean jump) {
+        this.jump = jump;
+    }
+
     public void resetDirectionBoolean() {
         left = false;
         right = false;
@@ -105,28 +109,59 @@ public class Player extends Entity {
 
     private void updatePosition() {
         moving = false;
-        if (!left && !right && !up && !down)
+        if (jump)
+            jump();
+        if (!left && !right && !inAir)
             return;
 
-        float xSpeed = 0, ySpeed = 0;
+        float xSpeed = 0;
 
-        if (left && !right)
-            xSpeed = -playerSpeed;
-        else if (right && !left)
-            xSpeed = playerSpeed;
+        if (left)
+            xSpeed -= playerSpeed;
+        if (right)
+            xSpeed += playerSpeed;
 
-
-        if (up && !down)
-            ySpeed = -playerSpeed;
-        else if (down && !up)
-            ySpeed = playerSpeed;
-
-        if (canMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, levelData)) {
-            hitbox.x += xSpeed;
-            hitbox.y += ySpeed;
-            moving = true;
+        if (!inAir) {
+            if (!isEntityOnFloor(hitbox, levelData))
+                inAir = true;
         }
 
+        if (inAir) {
+            if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)) {
+                hitbox.y += airSpeed;
+                airSpeed += gravity;
+                updatXPos(xSpeed);
+            } else {
+                hitbox.y = getEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+                if (airSpeed > 0)
+                    resetInAir();
+                else
+                    airSpeed = fallSpeedAfterCollision;
+                updatXPos(xSpeed);
+            }
+        } else
+            updatXPos(xSpeed);
+        moving = true;
+    }
+
+    private void jump() {
+        if (inAir)
+            return;
+        inAir = true;
+        airSpeed = jumpSpeed;
+    }
+
+    private void resetInAir() {
+        inAir = false;
+        airSpeed = 0;
+    }
+
+    private void updatXPos(float xSpeed) {
+        if (canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)) {
+            hitbox.x += xSpeed;
+        } else {
+            hitbox.x = getEntityXPosNextToWall(hitbox, xSpeed);
+        }
     }
 
     private void setAnimation() {
