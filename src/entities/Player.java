@@ -32,7 +32,7 @@ public class Player extends Entity {
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
-        initHitbox(x, y, 20 * Game.SCALE, 28 * Game.SCALE);
+        initHitbox(x, y, 20 * Game.SCALE, 27 * Game.SCALE);
     }
 
     public boolean isLeft() {
@@ -90,7 +90,7 @@ public class Player extends Entity {
 
     public void render(Graphics graphics) {
         graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
-        drawHitbox(graphics);
+//        drawHitbox(graphics);
     }
 
     private void loadAnimations() {
@@ -105,6 +105,8 @@ public class Player extends Entity {
 
     public void loadLevelData(int[][] levelData) {
         this.levelData = levelData;
+        if (!isEntityOnFloor(hitbox, levelData))
+            inAir = true;
     }
 
     private void updatePosition() {
