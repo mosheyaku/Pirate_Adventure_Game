@@ -130,17 +130,17 @@ public class Player extends Entity {
             if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)) {
                 hitbox.y += airSpeed;
                 airSpeed += gravity;
-                updatXPos(xSpeed);
+                updateXPos(xSpeed);
             } else {
                 hitbox.y = getEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
                 if (airSpeed > 0)
                     resetInAir();
                 else
                     airSpeed = fallSpeedAfterCollision;
-                updatXPos(xSpeed);
+                updateXPos(xSpeed);
             }
         } else
-            updatXPos(xSpeed);
+            updateXPos(xSpeed);
         moving = true;
     }
 
@@ -156,7 +156,7 @@ public class Player extends Entity {
         airSpeed = 0;
     }
 
-    private void updatXPos(float xSpeed) {
+    private void updateXPos(float xSpeed) {
         if (canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)) {
             hitbox.x += xSpeed;
         } else {
@@ -170,6 +170,12 @@ public class Player extends Entity {
             playerAction = RUNNING;
         else
             playerAction = STAYING;
+        if (inAir) {
+            if (airSpeed < 0)
+                playerAction = JUMP;
+            else
+                playerAction = FALLING;
+        }
         if (attacking)
             playerAction = ATTACK_1;
         if (startAnimation != playerAction)
