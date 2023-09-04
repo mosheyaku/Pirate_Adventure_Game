@@ -32,8 +32,8 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        menu= new Menu(this);
-        playing=new Playing(this);
+        menu = new Menu(this);
+        playing = new Playing(this);
     }
 
     private void startGameLoop() {
@@ -62,7 +62,10 @@ public class Game implements Runnable {
             case PLAYING:
                 playing.draw(graphics);
                 break;
+            case OPTIONS:
+            case QUIT:
             default:
+                System.exit(0);
                 break;
         }
     }
