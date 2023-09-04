@@ -12,6 +12,8 @@ public class LoadSave {
     public static final String PLAYER_ATLAS = "images/pirate_positions.png";
     public static final String LEVEL_ATLAS = "images/background_elements.png";
     public static final String LEVEL_ONE_DATA = "images/level_one_data.png";
+    public static final String MENU_BUTTONS = "images/button_templates.png";
+
 
 
     public static BufferedImage getPositionsAtlas(String fileName) {
