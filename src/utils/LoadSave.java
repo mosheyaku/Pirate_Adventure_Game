@@ -14,8 +14,7 @@ public class LoadSave {
     public static final String LEVEL_ONE_DATA = "images/level_one_data.png";
     public static final String MENU_BUTTONS = "images/button_templates.png";
     public static final String MENU_BACKGROUND = "images/menu_background.png";
-
-
+    public static final String PAUSE_BACKGROUND = "images/pause_menu.png";
 
 
     public static BufferedImage getPositionsAtlas(String fileName) {
