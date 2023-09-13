@@ -9,15 +9,28 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.UI.PauseButtons.SOUND_SIZE;
+import static utils.Constants.UI.URMButtons.URM_SIZE;
 
 public class PauseOverlay {
     private BufferedImage backgroundImg;
     private int backgroundX, backgroundY, backgroundWidth, backgroundHeight;
     private SoundButton musicButton, soundEffectsButton;
+    private UrmButton menuB, replyB, unpauseB;
 
     public PauseOverlay() {
         loadBackground();
         createSoundButtons();
+        createUrmButtons();
+    }
+
+    private void createUrmButtons() {
+        int menuX = (int) (313 * Game.SCALE);
+        int replyX = (int) (387 * Game.SCALE);
+        int unpauseX = (int) (462 * Game.SCALE);
+        menuB = new UrmButton(menuX, backgroundY, URM_SIZE, URM_SIZE, 2);
+        replyB = new UrmButton(replyX, backgroundY, URM_SIZE, URM_SIZE, 1);
+        unpauseB = new UrmButton(unpauseX, backgroundY, URM_SIZE, URM_SIZE, 0);
+
     }
 
     private void createSoundButtons() {
@@ -41,12 +54,19 @@ public class PauseOverlay {
     public void update() {
         musicButton.update();
         soundEffectsButton.update();
+        menuB.update();
+        replyB.update();
+        unpauseB.update();
     }
 
     public void draw(Graphics graphics) {
         graphics.drawImage(backgroundImg, backgroundX, backgroundY, backgroundWidth, backgroundHeight, null);
         musicButton.draw(graphics);
         soundEffectsButton.draw(graphics);
+
+        menuB.draw(graphics);
+        replyB.draw(graphics);
+        unpauseB.draw(graphics);
     }
 
     public void mouseDragged(MouseEvent e) {
