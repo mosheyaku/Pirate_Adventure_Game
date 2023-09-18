@@ -11,14 +11,17 @@ public class VolumeButton extends PauseButton {
     private BufferedImage[] imgs;
     private BufferedImage slider;
     private int index = 0;
-    private int buttonX;
+    private int buttonX, minX, maxX;
     private boolean mouseOver, mousePressed;
 
     public VolumeButton(int x, int y, int width, int height) {
         super(x + width / 2, y, VOLUME_WIDTH, height);
+        bounds.x -= VOLUME_WIDTH / 2;
         buttonX = x + width / 2;
         this.x = x;
         this.width = width;
+        minX = x + VOLUME_WIDTH / 2;
+        maxX = x + width - VOLUME_WIDTH / 2;
         loadImgs();
     }
 
@@ -41,8 +44,18 @@ public class VolumeButton extends PauseButton {
 
     public void draw(Graphics graphics) {
         graphics.drawImage(slider, x, y, width, height, null);
-        graphics.drawImage(imgs[index], buttonX, y, VOLUME_WIDTH, height, null);
+        graphics.drawImage(imgs[index], buttonX - VOLUME_WIDTH / 2, y, VOLUME_WIDTH, height, null);
+    }
 
+    public void changeX(int x) {
+        if (x < minX)
+            buttonX = minX;
+        else if (x > maxX)
+            buttonX = maxX;
+        else
+            buttonX = x;
+
+        bounds.x = buttonX - VOLUME_WIDTH / 2;
     }
 
     public void mouseResetBools() {
