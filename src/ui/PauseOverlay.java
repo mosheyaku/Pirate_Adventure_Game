@@ -1,5 +1,7 @@
 package ui;
 
+import gamestates.GameState;
+import gamestates.Playing;
 import main.Game;
 import utils.Constants;
 import utils.LoadSave;
@@ -16,8 +18,10 @@ public class PauseOverlay {
     private int backgroundX, backgroundY, backgroundWidth, backgroundHeight;
     private SoundButton musicButton, soundEffectsButton;
     private UrmButton menuB, replyB, unpauseB;
+    private Playing playing;
 
-    public PauseOverlay() {
+    public PauseOverlay(Playing playing) {
+        this.playing = playing;
         loadBackground();
         createSoundButtons();
         createUrmButtons();
@@ -27,9 +31,10 @@ public class PauseOverlay {
         int menuX = (int) (313 * Game.SCALE);
         int replyX = (int) (387 * Game.SCALE);
         int unpauseX = (int) (462 * Game.SCALE);
-        menuB = new UrmButton(menuX, backgroundY, URM_SIZE, URM_SIZE, 2);
-        replyB = new UrmButton(replyX, backgroundY, URM_SIZE, URM_SIZE, 1);
-        unpauseB = new UrmButton(unpauseX, backgroundY, URM_SIZE, URM_SIZE, 0);
+        int bY = (int) (325 * Game.SCALE);
+        menuB = new UrmButton(menuX, bY, URM_SIZE, URM_SIZE, 2);
+        replyB = new UrmButton(replyX, bY, URM_SIZE, URM_SIZE, 1);
+        unpauseB = new UrmButton(unpauseX, bY, URM_SIZE, URM_SIZE, 0);
 
     }
 
@@ -78,6 +83,12 @@ public class PauseOverlay {
             musicButton.setMousePressed(true);
         else if (isIn(e, soundEffectsButton))
             soundEffectsButton.setMousePressed(true);
+        else if (isIn(e, menuB))
+            menuB.setMousePressed(true);
+        else if (isIn(e, replyB))
+            replyB.setMousePressed(true);
+        else if (isIn(e, unpauseB))
+            unpauseB.setMousePressed(true);
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -87,19 +98,42 @@ public class PauseOverlay {
         } else if (isIn(e, soundEffectsButton)) {
             if (soundEffectsButton.isMousePressed())
                 soundEffectsButton.setMuted(!soundEffectsButton.isMuted());
+        } else if (isIn(e, menuB)) {
+            if (menuB.isMousePressed()) {
+                GameState.state = GameState.MENU;
+                playing.unpauseGame();
+            }
+        } else if (isIn(e, replyB)) {
+            if (replyB.isMousePressed())
+                System.out.println("reply level!");
+        } else if (isIn(e, unpauseB)) {
+            if (unpauseB.isMousePressed())
+                playing.unpauseGame();
         }
         musicButton.resetBools();
         soundEffectsButton.resetBools();
+        menuB.resetBools();
+        replyB.resetBools();
+        unpauseB.resetBools();
     }
 
     public void mouseMoved(MouseEvent e) {
         musicButton.setMouseOver(false);
         soundEffectsButton.setMouseOver(false);
+        menuB.setMouseOver(false);
+        replyB.setMouseOver(false);
+        unpauseB.setMouseOver(false);
 
         if (isIn(e, musicButton))
             musicButton.setMouseOver(true);
         else if (isIn(e, soundEffectsButton))
             soundEffectsButton.setMouseOver(true);
+        else if (isIn(e, menuB))
+            menuB.setMouseOver(true);
+        else if (isIn(e, replyB))
+            replyB.setMouseOver(true);
+        else if (isIn(e, unpauseB))
+            unpauseB.setMouseOver(true);
 
 
     }
