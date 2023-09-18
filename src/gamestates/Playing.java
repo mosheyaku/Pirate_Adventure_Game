@@ -63,8 +63,11 @@ public class Playing extends State implements StateMethods {
     public void draw(Graphics graphics) {
         levelManager.draw(graphics, xLevelOffset);
         player.render(graphics, xLevelOffset);
-        if (paused)
+        if (paused){
+            graphics.setColor(new Color(0, 0, 0, 150));
+            graphics.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
             pauseOverlay.draw(graphics);
+        }
     }
 
     @Override
