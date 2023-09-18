@@ -1,7 +1,5 @@
 package utils;
 
-import main.Game;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,11 +12,12 @@ public class LoadSave {
     //public static final String LEVEL_ONE_DATA = "images/level_one_data.png";
     public static final String LEVEL_ONE_DATA = "images/level_one_data_long.png";
     public static final String MENU_BUTTONS = "images/button_templates.png";
-    public static final String MENU_BACKGROUND = "images/menu_background.png";
+    public static final String MENU_BOARD = "images/menu_board.png";
     public static final String PAUSE_BACKGROUND = "images/pause_menu.png";
     public static final String SOUND_BUTTONS = "images/sound_button.png";
     public static final String URM_BUTTONS = "images/urm_buttons.png";
     public static final String VOLUME_BUTTONS = "images/volume_buttons.png";
+    public static final String MENU_BACKGROUND_IMG = "images/menu_background.png";
 
 
     public static BufferedImage getPositionsAtlas(String fileName) {
