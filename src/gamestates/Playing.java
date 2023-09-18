@@ -4,6 +4,7 @@ import entities.Player;
 import levels.LevelManager;
 import main.Game;
 import ui.PauseOverlay;
+import utils.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,6 +15,13 @@ public class Playing extends State implements StateMethods {
     private LevelManager levelManager;
     private PauseOverlay pauseOverlay;
     private boolean paused = false;
+    private int xLevelOffset;
+    private int leftBorder = (int) (0.2 * Game.GAME_WIDTH);
+    private int rightBorder = (int) (0.8 * Game.GAME_WIDTH);
+    private int levelTilesWide = LoadSave.getLevelData()[0].length;
+    private int maxTilesOffset = levelTilesWide - Game.TILES_IN_WIDTH;
+    private int maxLevelOffset = maxTilesOffset * Game.TILES_SIZE;
+
 
     public Playing(Game game) {
         super(game);
@@ -68,8 +76,8 @@ public class Playing extends State implements StateMethods {
             pauseOverlay.mouseMoved(e);
     }
 
-    public void mouseDragged(MouseEvent e){
-        if(paused)
+    public void mouseDragged(MouseEvent e) {
+        if (paused)
             pauseOverlay.mouseDragged(e);
     }
 
