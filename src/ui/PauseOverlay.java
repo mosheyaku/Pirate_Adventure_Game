@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 
 import static utils.Constants.UI.PauseButtons.SOUND_SIZE;
 import static utils.Constants.UI.URMButtons.URM_SIZE;
+import static utils.Constants.UI.VolumeButtons.*;
 
 public class PauseOverlay {
     private BufferedImage backgroundImg;
@@ -19,12 +20,20 @@ public class PauseOverlay {
     private SoundButton musicButton, soundEffectsButton;
     private UrmButton menuB, replyB, unpauseB;
     private Playing playing;
+    private VolumeButton volumeButton;
 
     public PauseOverlay(Playing playing) {
         this.playing = playing;
         loadBackground();
         createSoundButtons();
         createUrmButtons();
+        createVolumeButton();
+    }
+
+    private void createVolumeButton() {
+        int vX = (int) (309 * Game.SCALE);
+        int vY = (int) (278 * Game.SCALE);
+        volumeButton = new VolumeButton(vX, vY, SLIDER_WIDTH, VOLUME_HEIGHT);
     }
 
     private void createUrmButtons() {
@@ -62,16 +71,17 @@ public class PauseOverlay {
         menuB.update();
         replyB.update();
         unpauseB.update();
+        volumeButton.update();
     }
 
     public void draw(Graphics graphics) {
         graphics.drawImage(backgroundImg, backgroundX, backgroundY, backgroundWidth, backgroundHeight, null);
         musicButton.draw(graphics);
         soundEffectsButton.draw(graphics);
-
         menuB.draw(graphics);
         replyB.draw(graphics);
         unpauseB.draw(graphics);
+        volumeButton.draw(graphics);
     }
 
     public void mouseDragged(MouseEvent e) {
