@@ -9,6 +9,7 @@ import utils.LoadSave;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class Playing extends State implements StateMethods {
     private Player player;
@@ -21,11 +22,13 @@ public class Playing extends State implements StateMethods {
     private int levelTilesWide = LoadSave.getLevelData()[0].length;
     private int maxTilesOffset = levelTilesWide - Game.TILES_IN_WIDTH;
     private int maxLevelOffsetX = maxTilesOffset * Game.TILES_SIZE;
+    private BufferedImage backgroundIMG;
 
 
     public Playing(Game game) {
         super(game);
         initClasses();
+        backgroundIMG = LoadSave.getPositionsAtlas(LoadSave.PLAYING_BACKGROUND_IMG);
     }
 
     private void initClasses() {
@@ -61,9 +64,10 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void draw(Graphics graphics) {
+        graphics.drawImage(backgroundIMG, 0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
         levelManager.draw(graphics, xLevelOffset);
         player.render(graphics, xLevelOffset);
-        if (paused){
+        if (paused) {
             graphics.setColor(new Color(0, 0, 0, 150));
             graphics.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
             pauseOverlay.draw(graphics);
