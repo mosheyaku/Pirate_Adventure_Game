@@ -1,5 +1,8 @@
 package entities;
 
+import static utils.Constants.EnemyConstants.*;
+
+
 public abstract class Enemy extends Entity {
     private int animationIndex, enemyState, enemyType;
     private int animationMovement, animationSpeed = 25;
@@ -15,7 +18,7 @@ public abstract class Enemy extends Entity {
         if (animationMovement >= animationSpeed) {
             animationMovement = 0;
             animationIndex++;
-            if (animationIndex >= 9999)
+            if (animationIndex >= getPositionsAmount(enemyType,enemyState))
                 animationIndex = 0;
         }
     }
