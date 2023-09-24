@@ -1,10 +1,16 @@
 package utils;
 
+import entities.Crabby;
+import main.Game;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+
+import static utils.Constants.EnemyConstants.CRABBY;
 
 public class LoadSave {
     public static final String PLAYER_ATLAS = "images/pirate_positions.png";
@@ -24,10 +30,6 @@ public class LoadSave {
     public static final String CRABBY_ATLAS = "images/crabby_positions.png";
 
 
-
-
-
-
     public static BufferedImage getPositionsAtlas(String fileName) {
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
@@ -44,6 +46,19 @@ public class LoadSave {
             }
         }
         return img;
+    }
+
+    public static ArrayList<Crabby> getCrabs() {
+        BufferedImage img = getPositionsAtlas(LEVEL_ONE_DATA);
+        ArrayList<Crabby> list = new ArrayList<Crabby>();
+        for (int i = 0; i < img.getHeight(); i++)
+            for (int j = 0; j < img.getWidth(); j++) {
+                Color color = new Color(img.getRGB(j, i));
+                int value = color.getGreen();
+                if (value == CRABBY)
+                    list.add(new Crabby(j * Game.TILES_SIZE, i * Game.TILES_SIZE));
+            }
+        return list;
     }
 
     public static int[][] getLevelData() {
