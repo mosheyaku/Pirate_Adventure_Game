@@ -17,7 +17,7 @@ public class EnemyManager {
 
     public EnemyManager(Playing playing) {
         this.playing = playing;
-        LoafEnemyImgs();
+        loadEnemyImgs();
         addEnemies();
     }
 
@@ -26,7 +26,7 @@ public class EnemyManager {
         System.out.println("size of crabs: "+ crabbies.size());
     }
 
-    private void LoafEnemyImgs() {
+    private void loadEnemyImgs() {
         crabbyArr = new BufferedImage[5][9];
         BufferedImage temp = LoadSave.getPositionsAtlas(LoadSave.CRABBY_ATLAS);
         for (int i = 0; i < crabbyArr.length; i++)
@@ -34,9 +34,9 @@ public class EnemyManager {
                 crabbyArr[i][j] = temp.getSubimage(j * CRABBY_WIDTH_DEFAULT, i * CRABBY_HEIGHT_DEFAULT, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
     }
 
-    public void update() {
+    public void update(int[][] levelData) {
         for (Crabby c : crabbies)
-            c.update();
+            c.update(levelData);
     }
 
     public void draw(Graphics graphics, int xLevelOffset) {

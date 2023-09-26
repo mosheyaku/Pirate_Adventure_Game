@@ -90,7 +90,7 @@ public class Player extends Entity {
 
     public void render(Graphics graphics, int levelOffset) {
         graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) (hitbox.x - xDrawOffset) - levelOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
-//        drawHitbox(graphics);
+//        drawHitbox(graphics, levelOffset);
     }
 
     private void loadAnimations() {

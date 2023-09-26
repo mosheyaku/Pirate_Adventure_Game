@@ -2,6 +2,8 @@ package utils;
 
 import main.Game;
 
+import javax.management.monitor.GaugeMonitor;
+
 public class Constants {
 
     public static class EnemyConstants {
@@ -18,6 +20,9 @@ public class Constants {
 
         public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
         public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int CRABBY_DRAWOFFSET_X = (int) (26 * Game.SCALE);
+        public static final int CRABBY_DRAWOFFSET_Y = (int) (9 * Game.SCALE);
+
 
         public static final int getPositionsAmount(int enemy_type, int enemy_state) {
             switch (enemy_type) {
