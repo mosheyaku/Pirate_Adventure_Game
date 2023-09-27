@@ -9,4 +9,21 @@ public class Crabby extends Enemy {
         super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY);
         initHitbox(x, y, (int) (22 * Game.SCALE), (int) (26 * Game.SCALE));
     }
+
+    private void updateMove(int[][] levelData) {
+        if (firstUpdate)
+            firstUpdateCheck(levelData);
+        if (inAir) {
+            updateInAir(levelData);
+        } else {
+            switch (enemyState) {
+                case IDLE:
+                    enemyState = RUNNING;
+                    break;
+                case RUNNING:
+                    move(levelData);
+                    break;
+            }
+        }
+    }
 }
