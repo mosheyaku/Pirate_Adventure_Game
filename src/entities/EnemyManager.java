@@ -34,9 +34,9 @@ public class EnemyManager {
                 crabbyArr[i][j] = temp.getSubimage(j * CRABBY_WIDTH_DEFAULT, i * CRABBY_HEIGHT_DEFAULT, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
     }
 
-    public void update(int[][] levelData) {
+    public void update(int[][] levelData, Player player) {
         for (Crabby c : crabbies)
-            c.update(levelData);
+            c.update(levelData, player);
     }
 
     public void draw(Graphics graphics, int xLevelOffset) {

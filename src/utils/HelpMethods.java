@@ -66,9 +66,12 @@ public class HelpMethods {
     }
 
     public static boolean isAllTilesWalkable(int xStart, int xEnd, int y, int[][] levelData) {
-        for (int i = 0; i < xEnd - xStart; i++)
+        for (int i = 0; i < xEnd - xStart; i++) {
             if (isTileSolid(xStart + i, y, levelData))
                 return false;
+            if (!isTileSolid(xStart + i, y + 1, levelData))
+                return false;
+        }
         return true;
     }
 
