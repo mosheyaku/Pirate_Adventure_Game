@@ -29,6 +29,19 @@ public class Player extends Entity {
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
 
+    private BufferedImage statusBarImg;
+
+    private int statusBarWidth = (int) (192 * Game.SCALE);
+    private int statusBarHeight = (int) (58 * Game.SCALE);
+    private int statusBarX = (int) (10 * Game.SCALE);
+    private int statusBarY = (int) (10 * Game.SCALE);
+
+
+    private int healthBarWidth = (int) (150 * Game.SCALE);
+    private int healthBarHeight = (int) (4 * Game.SCALE);
+    private int healthBarXStart = (int) (34 * Game.SCALE);
+    private int healthBarYStart = (int) (14 * Game.SCALE);
+
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
@@ -91,6 +104,12 @@ public class Player extends Entity {
     public void render(Graphics graphics, int levelOffset) {
         graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) (hitbox.x - xDrawOffset) - levelOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
 //        drawHitbox(graphics, levelOffset);
+
+        drawUI(graphics);
+    }
+
+    private void drawUI(Graphics graphics) {
+        graphics.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
     }
 
     private void loadAnimations() {
@@ -101,6 +120,7 @@ public class Player extends Entity {
             for (int j = 0; j < pirateAnimation[i].length; j++) {
                 pirateAnimation[i][j] = img.getSubimage(j * 64, i * 40, 64, 40);
             }
+        statusBarImg = LoadSave.getPositionsAtlas(LoadSave.STATUS_BAR);
     }
 
     public void loadLevelData(int[][] levelData) {
