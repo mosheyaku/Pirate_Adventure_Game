@@ -4,6 +4,7 @@ import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static utils.Constants.PlayerConstants.*;
@@ -44,11 +45,18 @@ public class Player extends Entity {
     private int maxHealth = 100;
     private int currentHealth = maxHealth;
     private int healthWidth = healthBarWidth;
+    private Rectangle2D.Float attackBox;
+
 
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (27 * Game.SCALE));
+        initAttackBox();
+    }
+
+    private void initAttackBox() {
+        attackBox = new Rectangle2D.Float(x, y, (int) (20 * Game.SCALE), (int) (20 * Game.SCALE));
     }
 
     public boolean isLeft() {
@@ -99,10 +107,20 @@ public class Player extends Entity {
     }
 
     public void update() {
+        updateHealthBar();
+        updateAttackBox();
         updatePosition();
         updateAnimationMovement();
         setAnimation();
-        updateHealthBar();
+    }
+
+    private void updateAttackBox() {
+        if (right) {
+            attackBox.x = hitbox.x + hitbox.width + (int) (Game.SCALE * 10);
+        } else if (left) {
+            attackBox.x = hitbox.x - hitbox.width - (int) (Game.SCALE * 10);
+        }
+        attackBox.y = hitbox.y + (Game.SCALE * 10);
     }
 
     private void updateHealthBar() {
@@ -112,20 +130,26 @@ public class Player extends Entity {
     public void render(Graphics graphics, int levelOffset) {
         graphics.drawImage(pirateAnimation[playerAction][animationIndex], (int) (hitbox.x - xDrawOffset) - levelOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
 //        drawHitbox(graphics, levelOffset);
+        drawAttackBox(graphics, levelOffset);
 
         drawUI(graphics);
+    }
+
+    private void drawAttackBox(Graphics graphics, int levelOffsetX) {
+        graphics.setColor(Color.red);
+        graphics.drawRect((int) attackBox.x - levelOffsetX, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     private void drawUI(Graphics graphics) {
         graphics.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
         graphics.setColor(Color.red);
-        graphics.fillRect(healthBarXStart+statusBarX, healthBarYStart+statusBarY, healthWidth, healthBarHeight);
+        graphics.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
     }
 
     private void loadAnimations() {
         BufferedImage img = LoadSave.getPositionsAtlas(LoadSave.PLAYER_ATLAS);
 
-        pirateAnimation = new BufferedImage[9][6];
+        pirateAnimation = new BufferedImage[7][8];
         for (int i = 0; i < pirateAnimation.length; i++)
             for (int j = 0; j < pirateAnimation[i].length; j++) {
                 pirateAnimation[i][j] = img.getSubimage(j * 64, i * 40, 64, 40);
@@ -198,6 +222,14 @@ public class Player extends Entity {
         }
     }
 
+    public void chaneHealth(int value) {
+        currentHealth += value;
+        if (currentHealth <= 0)
+            currentHealth = 0;
+        else if (currentHealth >= maxHealth)
+            currentHealth = maxHealth;
+    }
+
     private void setAnimation() {
         int startAnimation = playerAction;
         if (moving)
@@ -211,7 +243,7 @@ public class Player extends Entity {
                 playerAction = FALLING;
         }
         if (attacking)
-            playerAction = ATTACK_1;
+            playerAction = ATTACK;
         if (startAnimation != playerAction)
             resetAnimationMovement();
     }
