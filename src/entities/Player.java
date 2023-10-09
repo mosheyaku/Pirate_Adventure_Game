@@ -41,6 +41,9 @@ public class Player extends Entity {
     private int healthBarHeight = (int) (4 * Game.SCALE);
     private int healthBarXStart = (int) (34 * Game.SCALE);
     private int healthBarYStart = (int) (14 * Game.SCALE);
+    private int maxHealth = 100;
+    private int currentHealth = maxHealth;
+    private int healthWidth = healthBarWidth;
 
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
@@ -99,6 +102,11 @@ public class Player extends Entity {
         updatePosition();
         updateAnimationMovement();
         setAnimation();
+        updateHealthBar();
+    }
+
+    private void updateHealthBar() {
+        healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
     }
 
     public void render(Graphics graphics, int levelOffset) {
@@ -110,6 +118,8 @@ public class Player extends Entity {
 
     private void drawUI(Graphics graphics) {
         graphics.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
+        graphics.setColor(Color.red);
+        graphics.fillRect(healthBarXStart+statusBarX, healthBarYStart+statusBarY, healthWidth, healthBarHeight);
     }
 
     private void loadAnimations() {
