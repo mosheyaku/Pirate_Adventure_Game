@@ -2,6 +2,8 @@ package entities;
 
 import main.Game;
 
+import java.awt.*;
+
 import static utils.Constants.EnemyConstants.*;
 import static utils.HelpMethods.*;
 import static utils.Constants.Directions.*;

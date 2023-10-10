@@ -1,7 +1,6 @@
 package entities;
 
 import gamestates.Playing;
-import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -44,10 +43,12 @@ public class EnemyManager {
     }
 
     private void drawCrabs(Graphics graphics, int xLevelOffset) {
-        for (Crabby c : crabbies)
+        for (Crabby c : crabbies) {
             graphics.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()],
                     (int) c.getHitbox().x - xLevelOffset + c.flipX(),
                     (int) c.getHitbox().y, CRABBY_WIDTH * c.flipW(), CRABBY_HEIGHT, null);
+            c.drawAttackBox(graphics, xLevelOffset);
+        }
     }
 
 }
