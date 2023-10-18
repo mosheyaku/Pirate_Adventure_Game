@@ -172,4 +172,7 @@ public class Playing extends State implements StateMethods {
     public void unpauseGame() {
         paused = false;
     }
+
+    public void resetAll() {
+    }
 }
