@@ -4,6 +4,7 @@ import gamestates.Playing;
 import utils.LoadSave;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -49,6 +50,14 @@ public class EnemyManager {
                     (int) c.getHitbox().y, CRABBY_WIDTH * c.flipW(), CRABBY_HEIGHT, null);
             c.drawAttackBox(graphics, xLevelOffset);
         }
+    }
+
+    public void checkEnemyHit(Rectangle2D.Float attackBox) {
+        for (Crabby c : crabbies)
+            if (attackBox.intersects(c.getHitbox())) {
+                c.hurt(10);
+                return;
+            }
     }
 
 }
