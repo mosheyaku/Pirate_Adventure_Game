@@ -36,7 +36,8 @@ public class EnemyManager {
 
     public void update(int[][] levelData, Player player) {
         for (Crabby c : crabbies)
-            c.update(levelData, player);
+            if (c.isActive())
+                c.update(levelData, player);
     }
 
     public void draw(Graphics graphics, int xLevelOffset) {
@@ -45,19 +46,21 @@ public class EnemyManager {
 
     private void drawCrabs(Graphics graphics, int xLevelOffset) {
         for (Crabby c : crabbies) {
-            graphics.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()],
-                    (int) c.getHitbox().x - xLevelOffset + c.flipX(),
-                    (int) c.getHitbox().y, CRABBY_WIDTH * c.flipW(), CRABBY_HEIGHT, null);
+            if (c.isActive())
+                graphics.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()],
+                        (int) c.getHitbox().x - xLevelOffset + c.flipX(),
+                        (int) c.getHitbox().y, CRABBY_WIDTH * c.flipW(), CRABBY_HEIGHT, null);
             c.drawAttackBox(graphics, xLevelOffset);
         }
     }
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
         for (Crabby c : crabbies)
-            if (attackBox.intersects(c.getHitbox())) {
-                c.hurt(10);
-                return;
-            }
+            if (c.isActive())
+                if (attackBox.intersects(c.getHitbox())) {
+                    c.hurt(10);
+                    return;
+                }
     }
 
 }

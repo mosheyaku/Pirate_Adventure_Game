@@ -22,6 +22,7 @@ public abstract class Enemy extends Entity {
     protected float attackDistance = Game.TILES_SIZE;
     protected int maxHealth;
     protected int currentHealth;
+    protected boolean active = true;
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -102,8 +103,11 @@ public abstract class Enemy extends Entity {
             animationIndex++;
             if (animationIndex >= getPositionsAmount(enemyType, enemyState)) {
                 animationIndex = 0;
-                if (enemyState == ATTACK)
-                    enemyState = IDLE;
+
+                switch (enemyState) {
+                    case ATTACK, HIT -> enemyState = IDLE;
+                    case DEAD -> active = false;
+                }
             }
         }
     }
@@ -170,5 +174,9 @@ public abstract class Enemy extends Entity {
 
     public int getEnemyState() {
         return enemyState;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
