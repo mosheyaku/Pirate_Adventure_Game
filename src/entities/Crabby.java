@@ -24,7 +24,7 @@ public class Crabby extends Enemy {
     }
 
     public void update(int[][] levelData, Player player) {
-        updateMove(levelData, player);
+        updateBehavior(levelData, player);
         updateAnimationMovement();
         updateAttackBox();
     }
@@ -34,7 +34,7 @@ public class Crabby extends Enemy {
         attackBox.y = hitbox.y;
     }
 
-    private void updateMove(int[][] levelData, Player player) {
+    private void updateBehavior(int[][] levelData, Player player) {
         if (firstUpdate)
             firstUpdateCheck(levelData);
         if (inAir) {
@@ -50,6 +50,14 @@ public class Crabby extends Enemy {
                     if (isPlayerCloseToAttack(player))
                         newState(ATTACK);
                     move(levelData);
+                    break;
+                case ATTACK:
+                    if (animationIndex == 0)
+                        attackChecked = false;
+                    if (animationIndex == 3 && !attackChecked)
+                        checkEnemyHit(attackBox, player);
+                    break;
+                case HIT:
                     break;
             }
         }

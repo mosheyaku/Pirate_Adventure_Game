@@ -1,5 +1,6 @@
 package entities;
 
+import gamestates.Playing;
 import main.Game;
 import utils.LoadSave;
 
@@ -49,9 +50,13 @@ public class Player extends Entity {
     private int flipX = 0;
     private int flipW = 1;
 
+    private boolean attackChecked;
 
-    public Player(float x, float y, int width, int height) {
+    private Playing playing;
+
+    public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
+        this.playing = playing;
         loadAnimations();
         initHitbox(x, y, (int) (20 * Game.SCALE), (int) (27 * Game.SCALE));
         initAttackBox();
@@ -112,8 +117,17 @@ public class Player extends Entity {
         updateHealthBar();
         updateAttackBox();
         updatePosition();
+        if (attacking)
+            checkAttack();
         updateAnimationMovement();
         setAnimation();
+    }
+
+    private void checkAttack() {
+        if (attackChecked || animationIndex != 1)
+            return;
+        attackChecked = true;
+        playing.checkEnemyHit(attackBox);
     }
 
     private void updateAttackBox() {
@@ -271,6 +285,7 @@ public class Player extends Entity {
             if (animationIndex >= getSpriteAmount(playerAction)) {
                 animationIndex = 0;
                 attacking = false;
+                attackChecked = false;
             }
         }
     }

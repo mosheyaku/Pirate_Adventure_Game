@@ -3,6 +3,7 @@ package entities;
 import main.Game;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.EnemyConstants.*;
 import static utils.HelpMethods.*;
@@ -23,6 +24,7 @@ public abstract class Enemy extends Entity {
     protected int maxHealth;
     protected int currentHealth;
     protected boolean active = true;
+    protected boolean attackChecked;
 
     public Enemy(float x, float y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -118,6 +120,12 @@ public abstract class Enemy extends Entity {
             newState(DEAD);
         else
             newState(HIT);
+    }
+
+    protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player) {
+        if (attackBox.intersects(player.hitbox))
+            player.chaneHealth(-getEnemyDmg(enemyType));
+        attackChecked = true;
     }
 
     public void update(int[][] levelData) {
