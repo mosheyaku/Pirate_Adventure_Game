@@ -17,7 +17,7 @@ public class GameOverlay {
 
     public void draw(Graphics graphics) {
         graphics.setColor(new Color(0, 0, 200));
-        graphics.fillRect(0, 0, Game.GAME_HEIGHT, Game.GAME_HEIGHT);
+        graphics.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         graphics.setColor(Color.white);
         graphics.drawString("Game Over", Game.GAME_WIDTH / 2, 150);
         graphics.drawString("Press esc to enter Main Menu!", Game.GAME_WIDTH / 2, 300);

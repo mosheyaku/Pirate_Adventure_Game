@@ -7,6 +7,7 @@ import utils.LoadSave;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.sql.Struct;
 
 import static utils.Constants.PlayerConstants.*;
 
@@ -115,6 +116,10 @@ public class Player extends Entity {
 
     public void update() {
         updateHealthBar();
+        if (currentHealth <= 0) {
+            playing.setGameOver(true);
+            return;
+        }
         updateAttackBox();
         updatePosition();
         if (attacking)
@@ -266,8 +271,14 @@ public class Player extends Entity {
             else
                 playerAction = FALLING;
         }
-        if (attacking)
+        if (attacking) {
             playerAction = ATTACK;
+            if (startAnimation != ATTACK) {
+                animationIndex = 1;
+                animationMovement = 0;
+                return;
+            }
+        }
         if (startAnimation != playerAction)
             resetAnimationMovement();
     }
