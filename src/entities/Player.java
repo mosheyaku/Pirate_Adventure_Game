@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.sql.Struct;
 
+import static utils.Constants.EnemyConstants.IDLE;
 import static utils.Constants.PlayerConstants.*;
 
 import static utils.HelpMethods.*;
@@ -105,6 +106,19 @@ public class Player extends Entity {
 
     public void setJump(boolean jump) {
         this.jump = jump;
+    }
+
+    public void resetAll() {
+        resetDirectionBoolean();
+        inAir = false;
+        attacking = false;
+        moving = false;
+        playerAction = IDLE;
+        currentHealth = maxHealth;
+        hitbox.x = x;
+        hitbox.y = y;
+        if (!isEntityOnFloor(hitbox, levelData))
+            inAir = true;
     }
 
     public void resetDirectionBoolean() {
