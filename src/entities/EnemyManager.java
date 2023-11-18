@@ -50,7 +50,7 @@ public class EnemyManager {
                 graphics.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()],
                         (int) c.getHitbox().x - xLevelOffset + c.flipX(),
                         (int) c.getHitbox().y, CRABBY_WIDTH * c.flipW(), CRABBY_HEIGHT, null);
-            c.drawAttackBox(graphics, xLevelOffset);
+//            c.drawAttackBox(graphics, xLevelOffset);
         }
     }
 
